@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import createApp from 'shared/components/app';
 
 const App = createApp(React);
-const props = payload || {
+const props = window.payload || {
   title: 'Default client title'
 };
 
