@@ -9,6 +9,7 @@ import { isUser } from 'shared/store/fx/user';
 
 const m = mori;
 
+// pure function utilities
 const findWhere = (collection, clauses) => {
   const coll = m.toJs(collection);
   const filtered = lFindWhere(coll, clauses);
@@ -20,6 +21,14 @@ const where = (collection, clauses) => {
   const filtered = lWhere(coll, clauses);
   return m.toClj(filtered);
 };
+
+const mostRecent = (a, b) => { return b - a; };
+
+const byDate = (checkin) => {
+  const date = m.get(checkin, 'date');
+  return m.get(checkin, date);
+};
+// /utilities
 
 const store = {
   fromObj: (data) => {
@@ -40,16 +49,11 @@ const store = {
 
           // for each member of the team
           const members = m.get(team, 'members');
+
+          // get the latest checkin
           const checkins = m.get(state, 'checkins');
           let latest = m.toClj([]); // latestCheckin: checkin[]
 
-          const byDate = (checkin) => {
-            const date = m.get(checkin, 'date');
-            return m.get(checkin, date);
-          };
-          const mostRecent = (a, b) => { return b - a; };
-
-          // get the latest checkin
           m.each(members, (member) => {
             const userId = m.get(member, 'userId');
             const memberCheckins = where(checkins, { userId, teamId });
