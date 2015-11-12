@@ -9,21 +9,21 @@ import { isUser } from 'shared/store/fx/user';
 
 const m = mori;
 
+const findWhere = (collection, clauses) => {
+  const coll = m.toJs(collection);
+  const filtered = lFindWhere(coll, clauses);
+  return m.toClj(filtered);
+};
+
+const where = (collection, clauses) => {
+  const coll = m.toJs(collection);
+  const filtered = lWhere(coll, clauses);
+  return m.toClj(filtered);
+};
+
 const store = {
   fromObj: (data) => {
     const state = m.toClj(data);
-
-    const findWhere = (collection, clauses) => {
-      const coll = m.toJs(collection);
-      const filtered = lFindWhere(coll, clauses);
-      return m.toClj(filtered);
-    };
-
-    const where = (collection, clauses) => {
-      const coll = m.toJs(collection);
-      const filtered = lWhere(coll, clauses);
-      return m.toClj(filtered);
-    };
 
     return {
       toObj () { return m.toJs(state); },
